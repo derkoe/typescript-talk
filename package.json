@@ -1,0 +1,18 @@
+{
+  "name": "typescript-talk",
+  "version": "1.0.0",
+  "description": "Typescript - The better JavaScript?",
+  "main": "index.js",
+  "scripts": {
+    "start": "hs -s"
+  },
+  "author": "Christian Köberl",
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "highlight.js": "^9.6.0",
+    "reveal.js": "^3.3.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}

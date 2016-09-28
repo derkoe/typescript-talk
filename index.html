@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Typescript - The better JavaScript?</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Christian Köberl">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="poi.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="node_modules/highlight.js/styles/obsidian.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+
+  <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section data-background="background_poi.png" class="start">
+        <h1>Typescript</h1>
+        <h2>The better JavaScript?</h2>
+        <p>
+          <small>Christian Köberl / <a href="mailto:christian.koeberl@porscheinformatik.at">christian.koeberl@porscheinformatik.at</a></small>
+        </p>
+        <img src="poi_logo_white.png" width="200" class="logo">
+      </section>
+
+      <section data-background="background_ich.jpg">
+        <img src="Christian_Koeberl.jpg" width="150" style="float: right">
+        <h2>Christian Köberl</h2>
+        Software Architect / Developer <br><br> Develops JavaScript since 1999,<br> knows (mostly) how to code JavaScript since 2014
+      </section>
+
+      <section>
+
+        <section>
+          <h1>Motivation </h1>
+        </section>
+
+        <section>
+          <h2>The problem with JS and types</h2>
+          <table>
+            <tr>
+              <td><code>[] + {}</code></td>
+              <td><code>====</code></td>
+              <td><code class="fragment">&quot;[object Object]&quot;</code></td>
+            </tr>
+            <tr>
+              <td><code>{} + []</code></td>
+              <td><code>====</code></td>
+              <td><code class="fragment">0</code></td>
+            </tr>
+            <tr>
+              <td><code>1 + {}</code></td>
+              <td><code>====</code></td>
+              <td><code class="fragment">"1[object Object]"</code></td>
+            </tr>
+            <tr>
+              <td><code>{} + 1</code></td>
+              <td><code>====</code></td>
+              <td><code class="fragment">1</code></td>
+            </tr> 
+            <tr>
+              <td><code>1 + {} + 1</code></td>
+              <td><code>====</code></td>
+              <td><code class="fragment">"1[object Object]1"</code></td>
+            </tr>
+          </table>
+          <img src="UJwz62B.gif" class="fragment" style="position: absolute; left: 30%; top: 30%;" alt="">
+        </section>
+
+        <section>
+          <h2>JS Developer Support (IDE)</h2>
+          <ul>
+            <li>Code completion aka Intellisense
+              <br>&rarr; has to be implemented for every library</li>
+            <li>Refactoring / Renaming
+              <br>&rarr; search & replace & <strong>pray</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>New Features</h2>
+          <div>Introducting new featueres to ECMAScript</div>
+          <ul>
+            <li>Decorators (aka Annotations)</li>
+            <li>async/await</li>
+            <li>null/undefined safety</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2>Typescript</h2>
+          <svg width="600" height="480" viewBox="-50 0 440 320">
+            <defs>
+              <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="arrow">
+                <path stroke-width="10" stroke="gray" fill="gray" d="m100,50l-100,40l30,-40l-30,-40z"/>
+              </marker>
+            </defs>
+            <g>
+              <title>Layer 1</title>
+              <circle id="ts-circle" r="160" cy="160" cx="160" fill="navy"/>
+              <text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="24" id="es5" y="50" x="160" stroke-linecap="null" stroke-width="0" fill="white">TypeScript</text>
+              <circle id="es6-circle" r="110" cy="190" cx="160" fill="mediumseagreen"/>
+              <text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="24" id="es5" y="130" x="160" stroke-linecap="null" stroke-width="0" fill="white">ES6</text>
+              <circle id="es5-cirlce" r="60" cx="160" cy="220" fill="crimson"/>
+              <text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="24" id="es5" y="229" x="160" stroke-linecap="null" stroke-width="0" fill="white">ES5</text>
+              <text transform="rotate(-90 360,170) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="compile" y="180" x="380" fill="gray">Compile</text>
+              <line marker-end="url(#arrow)" id="svg_2" y2="250" x2="340" y1="40" x1="340" stroke-width="5" stroke="gray" fill="none"/>          
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <h1>ES6/7 (valid)</h1>
+          <pre><code class="hljs">class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+}
+
+let person = new Person(1, 2);
+person.mama = 'Mia';
+person = Math.sqrt(person);</code></pre>
+          <h2 class="fragment">Types?</h2>
+        </section>
+
+        <section data-background-video="9yRwB0T.mp4" data-background-video-loop>
+          <h2>So why not classes and types?</h2>
+          <div style="height: 500px;"></div>
+        </section>
+
+        <section>
+          <h2>Typescript vs ES6 vs ES5</h2>
+          <code class="hljs" style="text-align:left; font-size: 0.7em;"><span class="es6">export class</span> Person {<br>
+<span class="typescript">&nbsp;&nbsp;firstName: string</span>;<br>
+<span class="typescript">&nbsp;&nbsp;lastName: string</span>;<br>
+<span class="typescript">&nbsp;&nbsp;dateOfBirth?: Date</span>;<br><br>
+&nbsp;&nbsp;<span class="es6">constructor</span>(firstName<span class="typescript">: string</span>, lastName<span class="typescript">: string</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;this.firstName = firstName;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;this.lastName = lastName;<br>
+&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return <span class="es6">`${this.firstName} ${this.lastName} (${this.dateOfBirth})`</span>;<br>
+&nbsp;&nbsp;}<br>
+}</code>
+        </section>
+      </section>
+
+      <section>
+
+        <section>
+          <h1>Features</h1>
+          <h2 class="fragment">Typescript and ES6</h2>
+        </section>
+
+        <section>
+          <h1><a href="https://www.typescriptlang.org/play/index.html" target="_blank">Demo Time!</a></h1>        
+          <aside class="notes">classes, interface</aside>
+        </section>
+
+        <section>
+          <h2>Basics</h2>
+          <ul>
+            <li>Type checking <pre><code class="hljs typescript">let hello: string = 'Hello';
+hello = 5; // error</code></pre></li>
+            <li>Intellisense<br><img src="intellisense.png"></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Classes</h2>
+          <pre><code class="hljs typescript">class Person {
+  constructor(private firstName: string, private lastName: string) {
+  }
+
+  getName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+
+let person = new Person("Chris", "Köberl");
+person.getName(); // Chris Köberl</code></pre>
+        </section>
+
+        <section>
+          <h2>Inheritance</h2>
+          <pre><code class="hljs typescript">class Employee extends Person {
+  employeeNo: number;
+  constructor(firstName: string, lastName: string,
+      employeeNo: number) {
+    super(firstName, lastName);
+    this.employeeNo = employeeNo;
+  }
+
+  getName() {
+    return super.getName() + '(' + this.employeeNo + ')';
+  }
+}</code></pre>
+        </section>
+
+        <section>
+          <h2>Interfaces</h2>
+          <pre><code class="hljs typescript">interface Person {
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: Date;
+}
+
+class Employee implements Person {
+  constructor(public firstName: string, public lastName: string) {
+  }
+}</code></pre>
+        </section>
+
+        <section>
+          <h2>Type Compatibility</h2>
+          <div>Structural Typing aka <a href="http://geekandpoke.typepad.com/.a/6a00d8341d3df553ef01053719d13a970b-pi" target="_blank">Duck Typing</a></div>
+          <pre><code class="hljs typescript">let person: Person = {
+  firstName: 'Chris',
+  lastName: 'Kö'
+};
+person.dateOfBirth = new Date();
+
+function savePerson(p: Person) {
+  // ...
+}</code></pre>
+        </section>
+
+        <section>
+          <h2>Type Inference</h2>
+          <pre><code class="hljs typescript">let name = 'Christian'; // no type needed
+
+// even no types for complex stuff
+document
+  .getElementById('id')
+  .addEventListener('click',
+            ev => alert(`${ev.clientX}, ${ev.clientY}`));
+
+</code></pre>
+        </section>
+
+        <section>
+          <h2>Generic Types</h2>
+          <pre><code class="hljs typescript">class Stack&lt;T&gt; {
+    private items: T[] = [];
+
+    public push(item: T) {
+        this.items.push(item);
+    }
+
+    public pop(): T {
+        return this.items.pop();
+    }
+}
+
+let stack = new Stack&lt;string&gt;();
+stack.push("a");
+let a = stack.pop();
+</code></pre>
+        </section>
+
+        <section>
+          <h2>Integrating JavaScript</h2>
+          <ul>
+            <li>TypeScript Declaration Files - <code>d.ts</code><br>
+              For: <code>$('#id').toggleClass('class');</code>
+              <pre><code class="hljs">interface JQuery {
+  toggleClass(className: string): JQuery;
+}
+interface JQueryStatic {
+  (selector: string): JQuery;
+}
+declare var $: JQueryStatic;</code></pre></li>
+            <li><a href="http://definitelytyped.org">DefinitelyTyped</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Modules and Namespaces</h2>
+          <ul>
+            <li>Modules correspond to ES6 modules <br>
+            <code>export</code> and <code>import</code></li>
+            <li>Namespaces are translated to IIFEs module pattern</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+            <h1>Advanced Topics</h1>
+        </section>
+
+        <section>
+          <h2>Decorators</h2>
+          <pre><code class="hljs typescript">class MyClass {
+  @measure()
+  doSomething() {
+    // ...
+  }
+}</code></pre>
+          <ul>
+            <li>Access control</li>
+            <li>Logging, Profiling</li>
+            <li>Frameworks (e.g. Angular)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Creating Decorators</h2>
+          <pre><code class="hljs typescript">function measure() {
+  return function (target: any, propertyKey: string,
+                   descriptor: PropertyDescriptor) {
+    let originalFunction = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+      let start = Date.now();
+      originalFunction.apply(target, args);
+      console.log(`${propertyKey} with params "${args}"
+            took ${Date.now() - start}ms`);
+    }
+  }
+}
+</code></pre>
+        </section>
+
+        <section>
+          <h2>async/await</h2>
+          Promises
+          <pre class="hljs typescript"><code>doSomething() {
+  return getToken().then(token => {
+    return loadData(token);
+  }).then(data => {
+    this.data = data;
+  });
+}</code></pre>
+        </section>
+        <section>
+          <h2>async/await</h2>
+          Easier promise handling
+          <pre class="hljs typescript"><code>async doSomething() {
+  let token = await getToken();
+  this.data = await loadData(token);
+}</code></pre>
+          <div class="fragment">only with target = ES6<br>target = ES5 on roadmap for Typescript 2.1</div>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h1>Tools</h1>
+        </section>
+
+        <section>
+          <h2>Typescript Compiler</h2>
+          <pre>Install: <code>npm i (-g|-D) typescript</code></pre>
+          <pre>Init/config: <code>tsc --init</code>&raquo; tsconfig.json</pre>
+          <pre>Run: <code>tsc</code></pre>
+        </section>
+
+        <section data-background-video="M95EVkX.mp4" data-background-video-loop>
+          <h1 style="color: red;">It compiles!!</h1>
+        </section>
+
+        <section>
+          <h2>tsconfig.json</h2>
+          <pre><code class="json">{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "types": [ "node", "jasmine" ]
+  },
+  "include": [ "src/**/*" ]
+}</code></pre>
+        </section>
+
+        <section>
+          <h2>Typings</h2>
+          Search and find d.ts files
+          <pre>Install: <code class="bash">npm install typings --global</code></pre>
+          <pre>Search: <code class="bash">typings search jasmine</code></pre>
+          <pre>Install: <code class="bash">typings install @types/jasmine --save</code></pre>
+          <pre>Install from Definitely Typed: <code class="bash">typings install dt~angular --global --save</code></pre>
+        </section>
+
+        <section>
+          <h2>tslint</h2>
+          <pre>Install: <code>npm i (-g|-D) tslint</code></pre>
+          <pre>Init/config: <code>tslint --init</code>&raquo; tslint.json</pre>
+          <pre>Run: <code>tslint -c tslint.json 'src/**/*.ts'</code></pre>
+        </section>
+
+        <section>
+          <h2>Editors / IDEs</h2>
+          <h3>Visual Studio Code <img src="vscode-logo.png"></h3>
+          <h3>Others good support</h3>
+          <ul>
+            <li>WebStorm / IntelliJ IDEA</li>
+            <li>Atom</li>
+            <li>Sublime</li>
+            <li>Microsoft Visual Studio</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>News</h1>
+        </section>
+
+        <section>
+          <h2>Typescript 2.0 (09/2016)</h2>
+          <ul>
+            <li>Typings now with npm: @types/*</li>
+            <li>Null- and undefined-aware types</li>
+            <li>Control flow analyzed types</li>
+            <li><code>readonly</code> attributes</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Typescript 2.x</h2>
+          <ul>
+            <li>async/await for ES5/ES3</li>
+            <li>Typescript extensibility</li>
+            <li>Quick-fix support in service API for IDEs</li>
+            <li>Ambient decorators (<code>@@deprecated</code>)</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <h2>Summary</h2>
+        When ...
+        <dl>
+          <dt class="fragment">you love JS </dt>
+          <dd class="fragment">keep JS</dd>
+          <dt class="fragment">you like JS and miss IDE/compiler support</dt>
+          <dd class="fragment">use Typescript</dd>
+          <dt class="fragment">you don't like JS</dt>
+          <dd class="fragment">use something else (CoffeeScript, Dart, ...)</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h1>Thx! Questions?</h1>
+      </section>
+
+      <section>
+        <h2>Image Credits</h2>
+        <ul>
+          <li>Schneespur: &copy; Christian Köberl</li>
+          <li><a href="http://imgur.com/gallery/UJwz62B">Robin Hood: Imgur</a></li>
+          <li><a href="http://imgur.com/gallery/9yRwB0T">I'll take both: Imgur</a></li>
+          <li><a href="http://imgur.com/gallery/M95EVkX">It compiles: Imgur</a></li>
+          <li>All others &copy; Porsche Informatik </li>
+        </ul>
+      </section>
+
+<!--
+      <section>
+        <h2>JS History in 30 Seconds</h2>
+        <ul>
+          <li>1994-1995 - Browser: Mosaic, Netscape, IE</li>
+          <li>1995 - Sun created Java</li>
+          <li>1995 - Netscape (Brendan Eich) created JavaScript in 10 days</li>
+          <li>1996 - IE created JScript</li>
+          <li>1997 - Standardized under ECMA: ECMAScript</li>
+      </section>
+
+      <section>
+        <h2>ECMA Script Current Versions</h2>
+        <ul>
+          <li class="fragment strike">ES3, JScript 5.5 - 8.0, JavaScript 1.5 - 1.8.3</li>
+          <li>ES5/5.1, JScript 9.0+, JavaScript 1.8.5 (IE9+, FF4+, Chrome, Safari5+)</li>
+          <li>ES6 - classes, modules, for/of, generator, arrow-function, ...</li>
+          <li>ES7/2016 - Array.prototype.includes and ** (aka pow)</li>
+        </ul>
+        </ul>
+      </section>
+-->
+
+    </div>
+  </div>
+
+  <script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+  <script src="node_modules/reveal.js/js/reveal.js"></script>
+
+  <script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: false,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'zoom', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [{
+        src: 'node_modules/reveal.js/lib/js/classList.js',
+        condition: function() {
+          return !document.body.classList;
+        }
+      }, {
+        src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js',
+        async: true
+      }, {
+        src: 'node_modules/reveal.js/plugin/notes/notes.js',
+        async: true
+      }, { 
+        src: 'node_modules/reveal.js/plugin/highlight/highlight.js', 
+        async: true, 
+        callback: function() { hljs.initHighlightingOnLoad(); } 
+      }]
+    });
+  </script>
+
+</body>
+
+</html>
